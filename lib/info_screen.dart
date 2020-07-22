@@ -2,16 +2,44 @@ import 'package:flutter/material.dart';
 import 'package:flutter_covid_info/constant.dart';
 import 'package:flutter_covid_info/widgets/header.dart';
 
-class InfoScreen extends StatelessWidget {
+class InfoScreen extends StatefulWidget {
+  @override
+  _InfoScreenState createState() => _InfoScreenState();
+}
+
+class _InfoScreenState extends State<InfoScreen> {
+  final controller = ScrollController();
+  double offset = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    controller.addListener(onScroll);
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
+  void onScroll() {
+    setState(() {
+      offset = (controller.hasClients) ? controller.offset : 0;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
+        controller: controller,
         child: Column(
           children: <Widget>[
             Header(
               image: "assets/icons/coronadr.svg",
               text: "Conheça tudo\n sobre Covid-19",
+              offset: offset,
             ),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 20),

@@ -6,11 +6,13 @@ import 'package:flutter_svg/flutter_svg.dart';
 class Header extends StatelessWidget {
   final String image;
   final String text;
+  final double offset;
 
   const Header({
     Key key,
     this.image,
     this.text,
+    this.offset = 0.0,
   }) : super(key: key);
 
   @override
@@ -58,14 +60,17 @@ class Header extends StatelessWidget {
                 fit: StackFit.loose,
                 overflow: Overflow.visible,
                 children: <Widget>[
-                  SvgPicture.asset(
-                    image,
-                    width: 230,
-                    fit: BoxFit.fitWidth,
-                    alignment: Alignment.topCenter,
+                  Positioned(
+                    top: (offset < 0) ? 0 : offset,
+                    child: SvgPicture.asset(
+                      image,
+                      width: 230,
+                      fit: BoxFit.fitWidth,
+                      alignment: Alignment.topCenter,
+                    ),
                   ),
                   Positioned(
-                    top: 20,
+                    top: 20 - offset / 2,
                     left: 150,
                     child: Text(
                       text,
